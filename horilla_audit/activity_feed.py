@@ -54,19 +54,23 @@ def history_date_label(history_date, today=None):
 
 def _actor_name(updated_by):
     if updated_by is None:
-        return _("Horilla Bot")
+        return _("XORA.studio Bot")
     if hasattr(updated_by, "get_full_name"):
-        return updated_by.get_full_name() or str(updated_by)
-    return str(updated_by) or _("Horilla Bot")
+        return updated_by.get_full_name() or _display_actor_name(str(updated_by))
+    return _display_actor_name(str(updated_by)) or _("XORA.studio Bot")
+
+
+def _display_actor_name(name):
+    return _("XORA.studio Bot") if name == "Horilla Bot" else name
 
 
 def _actor_avatar(updated_by):
     if updated_by is None:
-        return "https://ui-avatars.com/api/?name=Horilla+Bot&background=random"
+        return "https://ui-avatars.com/api/?name=XORA.studio+Bot&background=random"
     getter = getattr(updated_by, "get_avatar", None)
     if callable(getter):
         return getter()
-    return "https://ui-avatars.com/api/?name=Horilla+Bot&background=random"
+    return "https://ui-avatars.com/api/?name=XORA.studio+Bot&background=random"
 
 
 def _normalize_tracking_change(change):
@@ -160,7 +164,7 @@ class _AuditActor:
 
     def __init__(self, employee=None, name=None):
         self.employee = employee
-        self.name = name or _("Horilla Bot")
+        self.name = name or _("XORA.studio Bot")
 
     def get_full_name(self):
         if self.employee and hasattr(self.employee, "get_full_name"):

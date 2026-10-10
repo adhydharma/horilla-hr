@@ -5,7 +5,23 @@ from datetime import date, datetime, timedelta
 from django.test import SimpleTestCase
 from django.utils.translation import gettext as _
 
-from horilla_audit.activity_feed import history_action_phrase, history_date_label
+from horilla_audit.activity_feed import (
+    _actor_name,
+    history_action_phrase,
+    history_date_label,
+)
+
+
+class ActorNameTests(SimpleTestCase):
+    def test_system_actor_uses_new_brand(self):
+        self.assertEqual(_actor_name(None), _("XORA.studio Bot"))
+
+    def test_existing_system_actor_username_uses_new_brand(self):
+        class ExistingBot:
+            def __str__(self):
+                return "Horilla Bot"
+
+        self.assertEqual(_actor_name(ExistingBot()), _("XORA.studio Bot"))
 
 
 class HistoryActionPhraseTests(SimpleTestCase):
